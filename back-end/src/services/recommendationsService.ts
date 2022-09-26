@@ -1,6 +1,6 @@
 import { Recommendation } from "@prisma/client";
-import { recommendationRepository } from "../repositories/recommendationRepository.js";
-import { conflictError, notFoundError } from "../utils/errorUtils.js";
+import { recommendationRepository } from "../repositories/recommendationRepository";
+import { conflictError, notFoundError } from "../utils/errorUtils";
 
 export type CreateRecommendationData = Omit<Recommendation, "id" | "score">;
 
@@ -18,6 +18,11 @@ async function upvote(id: number) {
   await getByIdOrFail(id);
 
   await recommendationRepository.updateScore(id, "increment");
+}
+
+
+async function reset() {
+  await recommendationRepository.reset();
 }
 
 async function downvote(id: number) {
@@ -90,4 +95,5 @@ export const recommendationService = {
   get,
   getById: getByIdOrFail,
   getTop,
+  reset
 };

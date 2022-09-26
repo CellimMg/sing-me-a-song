@@ -1,12 +1,17 @@
 import { Prisma } from "@prisma/client";
-import { prisma } from "../database.js";
-import { CreateRecommendationData } from "../services/recommendationsService.js";
+import { prisma } from "../database";
+import { CreateRecommendationData } from "../services/recommendationsService";
 
 async function create(createRecommendationData: CreateRecommendationData) {
   await prisma.recommendation.create({
     data: createRecommendationData,
   });
 }
+
+async function reset() {
+  await prisma.recommendation.deleteMany();
+}
+
 
 interface FindAllWhere {
   score: number;
@@ -77,4 +82,5 @@ export const recommendationRepository = {
   updateScore,
   getAmountByScore,
   remove,
+  reset
 };

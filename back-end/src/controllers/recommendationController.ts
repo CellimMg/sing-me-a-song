@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { recommendationSchema } from "../schemas/recommendationsSchemas.js";
-import { recommendationService } from "../services/recommendationsService.js";
-import { wrongSchemaError } from "../utils/errorUtils.js";
+import { recommendationSchema } from "../schemas/recommendationsSchemas";
+import { recommendationService } from "../services/recommendationsService";
+import { wrongSchemaError } from "../utils/errorUtils";
 
 async function insert(req: Request, res: Response) {
   const validation = recommendationSchema.validate(req.body);
@@ -28,6 +28,13 @@ async function downvote(req: Request, res: Response) {
   await recommendationService.downvote(+id);
 
   res.sendStatus(200);
+}
+
+export async function reset(req: Request, res: Response){
+  
+  await recommendationService.reset();
+  
+  return res.sendStatus(200);
 }
 
 async function random(req: Request, res: Response) {
@@ -63,4 +70,5 @@ export const recommendationController = {
   getTop,
   get,
   getById,
+  reset
 };
